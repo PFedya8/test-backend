@@ -4,7 +4,7 @@ Simple Django CRUD API for tasks. Includes health and readiness endpoints.
 
 ## Development
 
-Install dependencies (Django and other packages are pinned in
+Install dependencies (Django, Gunicorn and other packages are pinned in
 `requirements.txt`) and run migrations:
 
 ```bash
