@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fedor Popko — DevOps/SRE Engineer</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --surface2: #21262d;
+      --border: #30363d;
+      --accent: #58a6ff;
+      --accent2: #3fb950;
+      --accent3: #d2a8ff;
+      --text: #e6edf3;
+      --text-muted: #8b949e;
+      --radius: 12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(13, 17, 23, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 56px;
+    }
+    .nav-logo { font-weight: 700; font-size: 1.1rem; color: var(--text); }
+    .nav-links { display: flex; gap: 1.5rem; }
+    .nav-links a { color: var(--text-muted); font-size: 0.9rem; transition: color .2s; }
+    .nav-links a:hover { color: var(--accent); text-decoration: none; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 80px 2rem 4rem;
+      background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(88,166,255,.15), transparent);
+    }
+    .hero-inner {
+      max-width: 860px; width: 100%;
+      display: flex; align-items: center; gap: 3rem;
+      flex-wrap: wrap;
+    }
+    .avatar-wrap {
+      flex-shrink: 0;
+      width: 160px; height: 160px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent3));
+      padding: 3px;
+    }
+    .avatar-inner {
+      width: 100%; height: 100%; border-radius: 50%;
+      background: var(--surface);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3.5rem;
+    }
+    .hero-text { flex: 1; min-width: 260px; }
+    .hero-text h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; line-height: 1.1; }
+    .hero-text h1 span { color: var(--accent); }
+    .hero-subtitle {
+      font-size: 1.1rem; color: var(--accent2); font-weight: 600;
+      margin: .5rem 0 1rem;
+    }
+    .hero-desc { color: var(--text-muted); max-width: 520px; font-size: .95rem; }
+    .hero-links {
+      margin-top: 1.5rem;
+      display: flex; flex-wrap: wrap; gap: .6rem;
+    }
+    .badge {
+      display: inline-flex; align-items: center; gap: .4rem;
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 99px; padding: .3rem .75rem;
+      font-size: .82rem; color: var(--text-muted);
+      transition: border-color .2s, color .2s;
+    }
+    .badge:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .badge svg { width: 14px; height: 14px; fill: currentColor; }
+
+    .cta-row { margin-top: 1.5rem; display: flex; gap: .8rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-block; padding: .55rem 1.3rem;
+      border-radius: 8px; font-weight: 600; font-size: .9rem;
+      transition: opacity .2s;
+    }
+    .btn:hover { opacity: .85; text-decoration: none; }
+    .btn-primary { background: var(--accent); color: #0d1117; }
+    .btn-outline { border: 1px solid var(--border); color: var(--text); }
+
+    /* ── SECTIONS ── */
+    section { padding: 5rem 2rem; }
+    .container { max-width: 900px; margin: 0 auto; }
+    .section-title {
+      font-size: 1.6rem; font-weight: 700;
+      margin-bottom: 2.5rem;
+      display: flex; align-items: center; gap: .75rem;
+    }
+    .section-title::after {
+      content: ""; flex: 1; height: 1px; background: var(--border);
+    }
+    .section-title .icon { color: var(--accent); }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+    .skill-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.2rem 1.4rem;
+    }
+    .skill-card h4 { font-size: .85rem; color: var(--accent); text-transform: uppercase; letter-spacing: .05em; margin-bottom: .7rem; }
+    .tags { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .tag {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 6px; padding: .2rem .55rem;
+      font-size: .78rem; color: var(--text-muted);
+    }
+
+    /* ── TIMELINE ── */
+    .timeline { position: relative; padding-left: 1.5rem; }
+    .timeline::before {
+      content: ""; position: absolute; left: 0; top: .5rem; bottom: .5rem;
+      width: 2px; background: var(--border);
+    }
+    .tl-item { position: relative; margin-bottom: 2.5rem; }
+    .tl-dot {
+      position: absolute; left: -1.5rem; top: .45rem;
+      transform: translateX(-50%);
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--accent); border: 2px solid var(--bg);
+    }
+    .tl-dot.green { background: var(--accent2); }
+    .tl-meta {
+      display: flex; align-items: baseline; gap: .75rem;
+      flex-wrap: wrap; margin-bottom: .3rem;
+    }
+    .tl-title { font-weight: 700; font-size: 1rem; }
+    .tl-company { color: var(--accent2); font-size: .9rem; font-weight: 600; }
+    .tl-date { color: var(--text-muted); font-size: .82rem; margin-left: auto; }
+    .tl-item ul { color: var(--text-muted); font-size: .88rem; padding-left: 1.2rem; margin-top: .5rem; }
+    .tl-item ul li { margin-bottom: .25rem; }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+    .project-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.3rem 1.4rem;
+      transition: border-color .2s, transform .2s;
+    }
+    .project-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .project-card h3 { font-size: .95rem; font-weight: 700; margin-bottom: .4rem; }
+    .project-card .year { font-size: .78rem; color: var(--accent3); margin-bottom: .6rem; }
+    .project-card p { font-size: .84rem; color: var(--text-muted); }
+
+    /* ── EDUCATION ── */
+    .edu-list { display: flex; flex-direction: column; gap: 1.2rem; }
+    .edu-item {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.1rem 1.4rem;
+      display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap;
+    }
+    .edu-item h4 { font-size: .92rem; font-weight: 700; }
+    .edu-item p { font-size: .84rem; color: var(--text-muted); margin-top: .2rem; }
+    .edu-year { font-size: .82rem; color: var(--accent3); white-space: nowrap; }
+
+    /* ── CONTACT ── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .contact-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.3rem;
+      display: flex; align-items: center; gap: 1rem;
+      transition: border-color .2s;
+    }
+    .contact-card:hover { border-color: var(--accent); text-decoration: none; }
+    .contact-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: var(--surface2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; flex-shrink: 0;
+    }
+    .contact-card span { font-size: .85rem; color: var(--text-muted); }
+    .contact-card strong { display: block; font-size: .9rem; color: var(--text); }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center; padding: 2rem;
+      color: var(--text-muted); font-size: .82rem;
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 600px) {
+      .hero-inner { flex-direction: column; align-items: flex-start; }
+      .nav-links { gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">FP</span>
+  <div class="nav-links">
+    <a href="#experience">Experience</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#education">Education</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="avatar-wrap">
+      <div class="avatar-inner">👨‍💻</div>
+    </div>
+    <div class="hero-text">
+      <h1>Fedor <span>Popko</span></h1>
+      <div class="hero-subtitle">DevOps / SRE Engineer</div>
+      <p class="hero-desc">
+        Building reliable, scalable infrastructure — from Kubernetes clusters and CI/CD pipelines
+        to monitoring stacks and secure secrets management. Currently at CDNvideo.
+      </p>
+      <div class="hero-links">
+        <a class="badge" href="mailto:fedorpopko22003@gmail.com">
+          <svg viewBox="0 0 16 16"><path d="M1.75 2A1.75 1.75 0 0 0 0 3.75v.736a.75.75 0 0 0 0 .027v7.737C0 13.216.784 14 1.75 14h12.5A1.75 1.75 0 0 0 16 12.25v-8.5A1.75 1.75 0 0 0 14.25 2H1.75ZM14.5 4.07v8.18a.25.25 0 0 1-.25.25H1.75a.25.25 0 0 1-.25-.25V4.07l5.985 3.501a1.5 1.5 0 0 0 1.53 0L14.5 4.07Zm-7.25-.07H1.75a.25.25 0 0 0-.25.25v.233l6.25 3.655 6.25-3.655V4.25a.25.25 0 0 0-.25-.25H8.75A1.5 1.5 0 0 1 7.25 4Z"/></svg>
+          fedorpopko22003@gmail.com
+        </a>
+        <a class="badge" href="https://github.com/PFedya8" target="_blank">
+          <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+          PFedya8
+        </a>
+        <a class="badge" href="https://t.me/fedor03" target="_blank">
+          <svg viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0ZM8.287 5.906c-.778.324-2.334.994-4.666 2.01-.378.15-.577.298-.595.442-.03.243.275.339.69.47l.175.055c.408.133.958.288 1.243.294.26.006.549-.1.868-.32 2.179-1.471 3.304-2.214 3.374-2.23.05-.012.12-.026.166.016.047.041.042.12.037.141-.03.129-1.227 1.241-1.846 1.817-.193.18-.33.307-.358.336a8.154 8.154 0 0 1-.188.186c-.38.366-.664.64.015 1.088.327.216.589.393.85.571.284.194.568.387.936.629.093.06.183.125.27.187.331.236.63.448.997.414.214-.02.435-.22.547-.82.265-1.417.786-4.486.906-5.751a1.426 1.426 0 0 0-.013-.315.337.337 0 0 0-.114-.217.526.526 0 0 0-.31-.093c-.3.005-.763.166-2.984 1.09Z"/></svg>
+          fedor03
+        </a>
+        <a class="badge" href="https://linkedin.com/in/fedor-popko" target="_blank">
+          <svg viewBox="0 0 16 16"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/></svg>
+          fedor-popko
+        </a>
+      </div>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="mailto:fedorpopko22003@gmail.com">Hire Me</a>
+        <a class="btn btn-outline" href="https://github.com/PFedya8" target="_blank">GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" style="background: var(--surface);">
+  <div class="container">
+    <h2 class="section-title"><span class="icon">💼</span> Work Experience</h2>
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-dot green"></div>
+        <div class="tl-meta">
+          <span class="tl-title">DevOps / SRE Engineer</span>
+          <span class="tl-company">CDNvideo</span>
+          <span class="tl-date">Nov 2024 — Present</span>
+        </div>
+        <ul>
+          <li>Designed and maintained monitoring systems for stability and fast incident response</li>
+          <li>Automated CI/CD processes, created and optimized pipelines for deployment and service updates</li>
+          <li>Prepared infrastructure for production, improved fault tolerance and performance</li>
+          <li>Administered and supported Kubernetes clusters, managed configurations and service orchestration</li>
+          <li>Led migration of services to production with minimal downtime and dependency control</li>
+          <li>Implemented secure secrets management (Vault + ESO) and RBAC policies</li>
+          <li>Worked on ensuring infrastructure reliability, scalability, and cost optimization</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-meta">
+          <span class="tl-title">ML Engineer</span>
+          <span class="tl-company">Wi-fly</span>
+          <span class="tl-date">Sep 2024 — Nov 2024</span>
+        </div>
+        <ul>
+          <li>Deployed LLM-based chatbots in on-premises infrastructure</li>
+          <li>Developed and integrated object detection system based on YOLO</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <h2 class="section-title"><span class="icon">⚙️</span> Hard Skills</h2>
+    <div class="skills-grid">
+
+      <div class="skill-card">
+        <h4>Programming</h4>
+        <div class="tags">
+          <span class="tag">C</span><span class="tag">C++</span><span class="tag">Go</span>
+          <span class="tag">Python</span><span class="tag">Bash</span>
+          <span class="tag">NumPy</span><span class="tag">Torch</span><span class="tag">Pandas</span>
+          <span class="tag">Selenium</span><span class="tag">Pytest</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <h4>Containerization &amp; Orchestration</h4>
+        <div class="tags">
+          <span class="tag">Docker</span><span class="tag">Docker Swarm</span>
+          <span class="tag">Kubernetes</span><span class="tag">Helm</span><span class="tag">Kustomize</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <h4>CI/CD &amp; Automation</h4>
+        <div class="tags">
+          <span class="tag">GitHub Actions</span><span class="tag">GitLab CI/CD</span>
+          <span class="tag">Argo CD</span><span class="tag">Terraform</span><span class="tag">Ansible</span>
+          <span class="tag">SaltStack</span><span class="tag">Puppet</span><span class="tag">Shell Scripting</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <h4>Monitoring &amp; Logging</h4>
+        <div class="tags">
+          <span class="tag">Prometheus</span><span class="tag">Grafana</span><span class="tag">Loki</span>
+          <span class="tag">Fluentbit</span><span class="tag">Victoria Metrics</span><span class="tag">Zabbix</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <h4>Cloud &amp; Virtualization</h4>
+        <div class="tags">
+          <span class="tag">Yandex Cloud</span><span class="tag">Timeweb Cloud</span>
+          <span class="tag">Selectel</span><span class="tag">VKCloud</span><span class="tag">VMware</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <h4>OS &amp; Networking</h4>
+        <div class="tags">
+          <span class="tag">Linux (Debian/Ubuntu/CentOS)</span>
+          <span class="tag">Unix Admin</span><span class="tag">Nginx</span>
+          <span class="tag">Vault + ESO</span><span class="tag">RBAC</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" style="background: var(--surface);">
+  <div class="container">
+    <h2 class="section-title"><span class="icon">🚀</span> Projects</h2>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <h3>MoyaLife Mobile App</h3>
+        <div class="year">2025</div>
+        <p>Led team building a cross-platform Flutter app (iOS/Android). Responsible for task management, QA, and supervised publication on App Store &amp; Google Play.</p>
+      </div>
+
+      <div class="project-card">
+        <h3>LBDY — Learnings Buddy</h3>
+        <div class="year">Summer 2023</div>
+        <p>Student platform with schedule, reminders, homework tracking, and a Telegram bot.</p>
+      </div>
+
+      <div class="project-card">
+        <h3>LDAP / Windows AD Setup</h3>
+        <div class="year">2023</div>
+        <p>Designed and integrated a centralized authentication and access management system for corporate infrastructure.</p>
+      </div>
+
+      <div class="project-card">
+        <h3>Consulting</h3>
+        <div class="year">2024</div>
+        <p>Consulting projects on data centers, communication channels, and cloud infrastructure.</p>
+      </div>
+
+      <div class="project-card">
+        <h3>International Company Localization</h3>
+        <div class="year">Summer 2022</div>
+        <p>Localization of global infrastructure services in Russia. Windows deployment with MDT.</p>
+      </div>
+
+      <div class="project-card">
+        <h3>QCollect</h3>
+        <div class="year">Summer 2022</div>
+        <p>System for automated collection of user reports and documents.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="container">
+    <h2 class="section-title"><span class="icon">🎓</span> Education</h2>
+    <div class="edu-list">
+
+      <div class="edu-item">
+        <div>
+          <h4>Lomonosov Moscow State University</h4>
+          <p>Faculty of Computational Mathematics and Cybernetics — Master's Degree</p>
+        </div>
+        <span class="edu-year">2025 — Present</span>
+      </div>
+
+      <div class="edu-item">
+        <div>
+          <h4>Lomonosov Moscow State University</h4>
+          <p>Graduate School of Business — Professional retraining "Entrepreneurship and Business Development (Doing Business)"</p>
+        </div>
+        <span class="edu-year">2024 — 2025</span>
+      </div>
+
+      <div class="edu-item">
+        <div>
+          <h4>Lomonosov Moscow State University</h4>
+          <p>Faculty of Computational Mathematics and Cybernetics — Bachelor's Degree</p>
+        </div>
+        <span class="edu-year">2021 — 2025</span>
+      </div>
+
+      <div class="edu-item">
+        <div>
+          <h4>Practical DevOps Courses — KodeKloud</h4>
+          <p>Certified Kubernetes Administrator (CKA) · Terraform · Ansible</p>
+        </div>
+        <span class="edu-year">2024 — 2025</span>
+      </div>
+
+      <div class="edu-item">
+        <div>
+          <h4>Data Analysis &amp; Machine Learning — ITMP</h4>
+          <p>Python for Data Analysis · Introduction to Deep Learning · Applied Machine Learning</p>
+        </div>
+        <span class="edu-year">2023 — 2024</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="background: var(--surface);">
+  <div class="container">
+    <h2 class="section-title"><span class="icon">📬</span> Contact</h2>
+    <div class="contact-grid">
+
+      <a class="contact-card" href="mailto:fedorpopko22003@gmail.com">
+        <div class="contact-icon">✉️</div>
+        <div>
+          <strong>Email</strong>
+          <span>fedorpopko22003@gmail.com</span>
+        </div>
+      </a>
+
+      <a class="contact-card" href="https://t.me/fedor03" target="_blank">
+        <div class="contact-icon">✈️</div>
+        <div>
+          <strong>Telegram</strong>
+          <span>@fedor03</span>
+        </div>
+      </a>
+
+      <a class="contact-card" href="https://github.com/PFedya8" target="_blank">
+        <div class="contact-icon">🐙</div>
+        <div>
+          <strong>GitHub</strong>
+          <span>github.com/PFedya8</span>
+        </div>
+      </a>
+
+      <a class="contact-card" href="https://linkedin.com/in/fedor-popko" target="_blank">
+        <div class="contact-icon">💼</div>
+        <div>
+          <strong>LinkedIn</strong>
+          <span>linkedin.com/in/fedor-popko</span>
+        </div>
+      </a>
+
+      <a class="contact-card" href="tel:+79686934302">
+        <div class="contact-icon">📞</div>
+        <div>
+          <strong>Phone</strong>
+          <span>+7 (968) 693-43-02</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Fedor Popko · Built with passion for clean infrastructure</p>
+</footer>
+
+</body>
+</html>
